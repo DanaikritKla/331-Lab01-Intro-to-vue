@@ -15,6 +15,7 @@
         <h1><a :href="link" target="_blank">{{ product }}</a></h1>
         
         <div class="nav-bar"></div>
+            <div class="cart">Cart{{ cart }}</div>
         <div class="product-display">
             <div class="product-container">
                 <div class="product-image">
@@ -25,17 +26,19 @@
         <div class="product-info">
             <h1>{{ product }}</h1>
             <p>{{ description }}</p>
-            <p v-if="inventory > 10">In Stock</p>
-            <p v-else-if="inventory <= 10 && inventory > 0">Almost out of Stock</p>
+            <p v-if="inStock">In Stock</p>
+            <p v-else>Almost out of Stock</p>
             <p v-if="onSale" class="on-sale">On Sale!</p>
             <p v-else>Regular Price</p>
             <ul>
                 <li v-for="detail in details" :key="detail">{{ detail }}</li>
             </ul>
-            <div v-for="variant in variants" :key="variant.id">
+            <div v-for="variant in variants" :key="variant.id" @mouseover="updateImage(variant.image)">
                 {{ variant.color }}
             </div>
             <p>Sizes: {{ sizes.join(', ') }}</p>
+            <button class="button" @click="addToCart">Add To Cart</button>
+            <button class="button" @click="toggleStockStatus">Toggle Stock Status</button>
         </div>
     </div>
 
