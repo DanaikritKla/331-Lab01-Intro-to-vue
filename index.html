@@ -12,7 +12,7 @@
 
 <body>
     <div id="app">
-        <h1><a :href="link" target="_blank">{{ product }}</a></h1>
+        
         
         <div class="nav-bar"></div>
             <div class="cart">Cart{{ cart }}</div>
@@ -24,7 +24,7 @@
             </div>
         </div>
         <div class="product-info">
-            <h1>{{ product }}</h1>
+          <h1><a :href="link" target="_blank">{{ title }}</a></h1>
             <p>{{ description }}</p>
             <p v-if="inStock">In Stock</p>
             <p v-else>Almost out of Stock</p>
@@ -33,12 +33,15 @@
             <ul>
                 <li v-for="detail in details" :key="detail">{{ detail }}</li>
             </ul>
-            <div v-for="variant in variants" :key="variant.id" @mouseover="updateImage(variant.image)" class="color-circle" :style="{backgroundColor: variant.color}">
+            <div v-for="(variant,index) in variants" :key="variant.id" @mouseover="updateVariant(index)"
+                class="color-circle" :style="{backgroundColor: variant.color}">
                 {{ variant.color }}
             </div>
             <p>Sizes: {{ sizes.join(', ') }}</p>
-            <button class="button" :disabled='!inStock' @click="addToCart":class="{disabledButton: !inStock}">Add To Cart</button>
+            <button class="button" :disabled='!inStock' @click="addToCart"
+                :class="{ disabledButton: !inStock }">Add To Cart</button>
             <button class="button" @click="toggleStockStatus">Toggle Stock Status</button>
+            <p>{{ inSale }}</p> <!-- Display inSale computed property -->
         </div>
     </div>
 
