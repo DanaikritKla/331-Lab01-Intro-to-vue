@@ -1,72 +1,85 @@
 const { createApp, ref, computed } = Vue;
 
-createApp({
+const app = createApp({
   setup() {
-    const product = ref('Socks');
-    const brand = ref('SE 331');
-    const description = ref('Comfortable socks made with high-quality materials.');
-    const link = ref('https://www.camt.cmu.ac.th');
+    const premium = ref(true)
+    const product = ref("Boots");
+    const brand = ref("SE 331");
+    // const image = ref("./assets/images/socks_green.jpg");
+    const image = computed(() =>{
+        return variants.value[selectedVariant.value].image
+    })
+    // const inStock = ref(false);
+    const inStock = computed(() =>{
+        return variants.value[selectedVariant.value].quantity
+    })
     const inventory = ref(100);
-    const onSale = ref(false);
-    const details = ref(['50% cotton', '30% wool', '20% polyester']);
+    const details = ref(["50% cotton", "30% wool", "20% polyester"]);
     const variants = ref([
-      { id: 2234, color: 'Green', image: './assets/images/socks_green.jpg', quantity: 50 },
-      { id: 2235, color: 'Blue', image: './assets/images/socks_blue.jpg', quantity: 0 }
+      {
+        id: 2234,
+        color: "green",
+        image: "./assets/images/socks_green.jpg",
+        quantity: 50
+      },
+      {
+        id: 2235,
+        color: "blue",
+        image: "./assets/images/socks_blue.jpg",
+        quantity: 0
+      },
     ]);
-    const selectedVariant = ref(0);
-
     function updateVariant(index) {
       selectedVariant.value = index;
     }
-
-    const image = computed(() => {
-      return variants.value[selectedVariant.value].image;
-    });
-
-    const inStock = computed(() => {
-      return variants.value[selectedVariant.value].quantity;
-    });
-
-    const sizes = ref(['S', 'M', 'L']);
+    const selectedVariant = ref(0);
     const cart = ref(0);
-
     function addToCart() {
       cart.value += 1;
     }
-
     const title = computed(() => {
+    //   return brand.value + " " + product.value;
       if (onSale.value) {
         return brand.value + ' ' + product.value + ' is on sale';
       } else {
-        return brand.value + ' ' + product.value;
+        return brand.value + ' ' + product.value
       }
     });
-
+    function changeStock() {
+      inStock.value = !inStock.value;
+    }
     function updateImage(variantImage) {
       image.value = variantImage;
     }
-
-    function toggleStockStatus() {
-      inStock.value = !inStock.value;
-    }
-
+    const size = ref(["S", "M", "L"]);
+    const onSale = ref(true);
+    // const onSale = computed(() =>{
+    //     return 
+    // })
+    const description = ref("green sock so beautiful");
+    const link = ref("http://www.camt.cmu.ac.th");
     return {
-      product,
-      brand,
-      title,
-      description,
       image,
+      description,
       link,
       inStock,
       inventory,
       onSale,
       details,
       variants,
-      sizes,
+      size,
       cart,
       addToCart,
       updateImage,
-      toggleStockStatus
+      changeStock,
+      title,
+      updateVariant,
+      premium
     };
-  }
-}).mount('#app');
+  },
+})
+
+app.component('product-display', productDisplay)
+
+app.mount('#app')
+  

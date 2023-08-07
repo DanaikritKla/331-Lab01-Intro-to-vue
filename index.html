@@ -1,52 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <title>Intro SE331</title>
     <!-- Import Styles -->
     <link rel="stylesheet" href="./assets/styles.css" />
     <!-- Import Vue.js -->
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-</head>
+  </head>
 
-<body>
+  <body>
     <div id="app">
-        
-        
-        <div class="nav-bar"></div>
-            <div class="cart">Cart{{ cart }}</div>
-        <div class="product-display">
-            <div class="product-container">
-                <div class="product-image">
-                    <img :src="image" :class="{ 'out-of-stock-img': !inStock }">
-                </div>
-            </div>
-        </div>
-        <div class="product-info">
-          <h1><a :href="link" target="_blank">{{ title }}</a></h1>
-            <p>{{ description }}</p>
-            <p v-if="inStock">In Stock</p>
-            <p v-else>Almost out of Stock</p>
-            <p v-if="onSale" class="on-sale">On Sale!</p>
-            <p v-else>Regular Price</p>
-            <ul>
-                <li v-for="detail in details" :key="detail">{{ detail }}</li>
-            </ul>
-            <div v-for="(variant,index) in variants" :key="variant.id" @mouseover="updateVariant(index)"
-                class="color-circle" :style="{backgroundColor: variant.color}">
-                {{ variant.color }}
-            </div>
-            <p>Sizes: {{ sizes.join(', ') }}</p>
-            <button class="button" :disabled='!inStock' @click="addToCart"
-                :class="{ disabledButton: !inStock }">Add To Cart</button>
-            <button class="button" @click="toggleStockStatus">Toggle Stock Status</button>
-            <p>{{ inSale }}</p> <!-- Display inSale computed property -->
-        </div>
+      <div class="nav-bar"></div>
+      <div class="cart">Cart({{cart}})</div>
+      <!-- <product-display></product-display> -->
+      <product-display :premium="premium"></product-display>
+      <!-- <product-display></product-display> -->
     </div>
-
     <!-- Import Js -->
+    <script src="./components/ProductDisplay.js"></script>
     <script src="./main.js"></script>
-</body>
-
+  </body>
 </html>
